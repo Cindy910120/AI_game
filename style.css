@@ -1,0 +1,71 @@
+* { box-sizing: border-box; }
+body { font-family: "Segoe UI", Roboto, "Noto Sans TC", sans-serif; background:#f4f6f8; color:#222; margin:0; padding:20px; }
+.container{ max-width:900px; margin:20px auto; background:linear-gradient(180deg,#ffffff,#f7fbff); border-radius:12px; padding:24px; box-shadow:0 12px 30px rgba(20,40,80,0.08); position:relative; border:1px solid rgba(0,0,0,0.04); }
+header{ display:flex; align-items:center; justify-content:space-between; }
+.logo{ display:flex; align-items:center; gap:12px; }
+.logo .icon{ font-size:28px; }
+.title{ font-size:1.6rem; margin:0; }
+header h1{ margin:0; }
+button{ cursor:pointer; }
+
+/* button defaults */
+button{ background:linear-gradient(180deg,#4aa3ff,#0b78e6); color:white; border:0; padding:10px 14px; border-radius:10px; }
+button.secondary{ background:#fff; color:#0b3a66; border:1px solid rgba(10,30,80,0.08); }
+.screen.hidden{ display:none; }
+.score{ font-weight:700; margin-bottom:10px; }
+.question-area{ padding:22px; border-radius:10px; background:linear-gradient(180deg,#fff,#f5fbff); box-shadow:0 8px 18px rgba(10, 40, 80, 0.04); border:1px solid rgba(10,20,60,0.03); }
+.question-area #question{ font-size:1.3rem; margin-bottom:14px; font-weight:700; color:#0b3a66; }
+.choices{ display:flex; gap:12px; }
+.choice{ flex:1; padding:14px 18px; font-size:1rem; border-radius:12px; border:0; background:linear-gradient(180deg,#fff,#eef7ff); box-shadow:0 8px 18px rgba(10,30,80,0.06); transition:transform .18s ease, box-shadow .18s ease; color:#0b3a66; font-weight:700; display:flex; align-items:center; justify-content:center; min-height:56px; }
+.choice:hover{ transform:translateY(-6px); box-shadow:0 16px 30px rgba(10,30,80,0.12); }
+.choice:active{ transform:translateY(-2px); }
+.result{ margin-top:12px; font-weight:700; }
+/* final results */
+.final-score{ font-size:1.4rem; font-weight:800; margin:14px 0; }
+.final-actions{ display:flex; gap:10px; }
+.final-actions button{ padding:10px 14px; font-weight:700; border-radius:8px; }
+
+/* final animations container */
+.final-anim{ height:120px; margin-bottom:12px; position:relative; }
+.final-message{ font-size:1.1rem; margin-bottom:12px; font-weight:700; color:#06345a; }
+
+/* Tier 1: fireworks / confetti - simple bursting circles */
+.tier-fireworks{ overflow:visible; }
+.tier-fireworks .confetti-dot{ position:absolute; width:10px; height:10px; border-radius:50%; opacity:0.95; animation:burst 1.2s ease-out forwards; }
+/* Updated to use CSS variables for transform and ensure initial transform is identity */
+.tier-fireworks .confetti-dot{ transform:translate(0,0); }
+@keyframes burst{ to{ transform: translate(var(--tx), var(--ty)) scale(0.8); opacity:0; } }
+/* Updated animation properties */
+.tier-fireworks .confetti-dot{ animation-name: burst; animation-timing-function: ease-out; animation-fill-mode: forwards; }
+
+/* Tier 2: encourage pulse */
+.tier-encourage .encourage{ padding:12px 18px; background:linear-gradient(90deg,#fff7e6,#fff1d6); border-radius:10px; color:#b35a00; animation:encouragePulse 1.6s ease-in-out infinite; }
+@keyframes encouragePulse{ 0%{ transform:scale(1); }50%{ transform:scale(1.03);}100%{ transform:scale(1);} }
+
+/* Tier 3: sad shake + faded color */
+.tier-sad .sad{ color:#5b6b7a; opacity:0.9; animation:sadShake 0.9s ease-in-out infinite; }
+@keyframes sadShake{ 0%{ transform:translateX(0);}25%{ transform:translateX(-6px);}75%{ transform:translateX(6px);}100%{ transform:translateX(0);} }
+footer{ position:relative; margin-top:20px; }
+#hint-buddy{ position:fixed; right:28px; bottom:28px; width:56px; height:56px; background:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:28px; box-shadow:0 8px 18px rgba(0,0,0,0.12); cursor:pointer; }
+#hint-box{ position:fixed; right:28px; bottom:96px; width:260px; background:#222; color:#fff; padding:12px; border-radius:8px; box-shadow:0 10px 30px rgba(0,0,0,0.15); }
+.disabled{ pointer-events:none; opacity:0.5; transform:none !important; cursor:not-allowed !important; }
+.hidden{ display:none; }
+small.hint-meta{ display:block; margin-top:8px; opacity:0.85; font-size:0.85rem; }
+
+
+@media (max-width:900px){
+	.container{ margin:12px; padding:16px; }
+	.title{ font-size:1.3rem; }
+}
+
+@media (max-width:640px){
+	.container{ padding:12px; }
+	.choices{ flex-direction:column; }
+	#hint-buddy{ right:14px; bottom:14px; width:48px; height:48px; font-size:22px; }
+	#hint-box{ right:12px; bottom:68px; width:220px; }
+	.final-actions{ flex-direction:column; }
+}
+
+/* subtle fade-in animation */
+.fade-in{ animation: fadeIn .35s ease both; }
+@keyframes fadeIn{ from{ opacity:0; transform:translateY(6px);} to{ opacity:1; transform:none; } }

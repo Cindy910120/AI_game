@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>AI 問答遊戲</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">
+        <div class="icon">🤖</div>
+        <h1 class="title">AI 問答遊戲</h1>
+      </div>
+      <button id="btn-start">開始遊戲</button>
+    </header>
+
+    <main>
+      <section id="home" class="screen">
+        <h2>說明書</h2>
+        <p>這是一個簡單的 AI 主題問答遊戲。每題會出一個問題，選擇「圈圈(○)」代表你覺得是「正確/是」，選擇「差差(×)」代表「錯誤/否」。答對會加分，答錯不加分。旁邊的小人物可以點選取得提示。</p>
+        <ul>
+          <li>按「開始遊戲」跳到題目。</li>
+          <li>每答對一題 +10 分。</li>
+          <li>畫面右下有小人物可點，會顯示提示（消耗一次提示機會）。</li>
+        </ul>
+      </section>
+
+      <section id="game" class="screen hidden">
+        <div class="score">分數: <span id="score">0</span></div>
+        <div class="question-area fade-in" id="question-area">
+          <div id="question">問題載入中...</div>
+          <div class="choices">
+            <button class="choice" data-choice="true">○ 圈圈</button>
+            <button class="choice" data-choice="false">× 差差</button>
+          </div>
+        </div>
+        <div id="result" class="result fade-in"></div>
+      </section>
+      <section id="final" class="screen hidden">
+        <h2>結算</h2>
+        <div class="final-score">你的總分：<span id="final-score">0</span></div>
+        <div id="final-anim" class="final-anim" aria-hidden="true"></div>
+        <div id="final-message" class="final-message"></div>
+        <div class="final-actions">
+          <button id="btn-restart">再玩一次</button>
+          <button id="btn-backhome">回首頁</button>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div id="hint-buddy" title="點我取得提示">👩‍💻</div>
+      <div id="hint-box" class="hidden">提示區</div>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
