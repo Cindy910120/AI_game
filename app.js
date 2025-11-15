@@ -20,6 +20,8 @@ let state = {
   hintsLeft: 3,
 };
 
+let finalInterval = null;
+
 // 元件
 const btnStart = document.getElementById('btn-start');
 const home = document.getElementById('home');
@@ -72,8 +74,16 @@ function showQuestion(){
   // 若有提示機會，啟用提示按鈕；否則禁用
   if(state.hintsLeft > 0){
     hintBuddy.classList.remove('disabled');
+    hintBuddy.classList.add('hint-available');
   } else {
     hintBuddy.classList.add('disabled');
+    hintBuddy.classList.remove('hint-available');
+  }
+  // update progress bar if present
+  const fill = document.getElementById('progress-fill');
+  if(fill){
+    const pct = Math.round((state.current / questions.length) * 100);
+    fill.style.width = pct + '%';
   }
 }
 
@@ -94,7 +104,11 @@ fetch('questions.json')
   });
 
 function updateScore(){
+  // update score text and briefly bump it for a visual effect
   scoreEl.textContent = state.score;
+  scoreEl.classList.remove('bump');
+  void scoreEl.offsetWidth; // reflow to restart animation
+  scoreEl.classList.add('bump');
 }
 
 choices.forEach(btn => {
@@ -138,6 +152,11 @@ choices.forEach(btn => {
 });
 
 function clearFinalAnim(){
+  // stop any persistent interval-based animation
+  if(finalInterval){
+    clearInterval(finalInterval);
+    finalInterval = null;
+  }
   finalAnim.innerHTML = '';
   finalAnim.className = 'final-anim';
   finalMessage.textContent = '';
@@ -152,22 +171,31 @@ function showFinalScreen(score){
   if(pct >= 80){
     finalAnim.classList.add('tier-fireworks');
     finalMessage.textContent = '太棒了！煙火慶祝你的好成績！';
-    // create confetti-like dots with random directions
-    for(let i=0;i<20;i++){
-      const s = document.createElement('span');
-      s.className = 'confetti-dot';
-      s.style.background = `hsl(${Math.floor(Math.random()*360)},70%,60%)`;
-      const tx = (Math.random()*300 - 150) + 'px';
-      const ty = (Math.random()*-220 - 40) + 'px';
-      s.style.setProperty('--tx', tx);
-      s.style.setProperty('--ty', ty);
-      s.style.left = '50%';
-      s.style.top = '50%';
-      // randomize delay and duration for nicer effect
-      s.style.animationDelay = (Math.random()*0.3) + 's';
-      s.style.animationDuration = (0.9 + Math.random()*0.8) + 's';
-      finalAnim.appendChild(s);
-    }
+    // spawn confetti in repeated bursts until cleared
+    const spawnConfetti = () => {
+      const count = 18 + Math.floor(Math.random()*8);
+      for(let i=0;i<count;i++){
+        const s = document.createElement('span');
+        s.className = 'confetti-dot';
+        s.style.background = `hsl(${Math.floor(Math.random()*360)},70%,60%)`;
+        const tx = (Math.random()*360 - 180) + 'px';
+        const ty = (Math.random()*-300 - 60) + 'px';
+        s.style.setProperty('--tx', tx);
+        s.style.setProperty('--ty', ty);
+        s.style.left = '50%';
+        s.style.top = '50%';
+        const delay = Math.random()*0.35;
+        const dur = 0.9 + Math.random()*0.9;
+        s.style.animationDelay = delay + 's';
+        s.style.animationDuration = dur + 's';
+        finalAnim.appendChild(s);
+        // remove element after animation completes to avoid DOM buildup
+        setTimeout(()=>{ try{ s.remove(); }catch(e){} }, (delay + dur + 0.3)*1000);
+      }
+    };
+    spawnConfetti();
+    if(finalInterval) clearInterval(finalInterval);
+    finalInterval = setInterval(spawnConfetti, 900);
   } else if(pct >= 60){
     finalAnim.classList.add('tier-encourage');
     const div = document.createElement('div');
@@ -210,6 +238,8 @@ updateScore();
 // 結算畫面按鈕行為
 btnRestart.addEventListener('click', () => {
   // 重新開始遊戲
+  // clear any final animations then start
+  clearFinalAnim();
   finalScreen.classList.add('hidden');
   startGame();
 });
@@ -217,6 +247,8 @@ btnRestart.addEventListener('click', () => {
 btnBackHome.addEventListener('click', () => {
   // 回首頁（不保留遊戲畫面）
   finalScreen.classList.add('hidden');
+  // clear any final animation state before returning home
+  clearFinalAnim();
   // 使用現有 showHome() 以確保按鈕顯示/隱藏邏輯一致
   btnStart.textContent = '開始遊戲';
   showHome();

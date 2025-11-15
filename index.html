@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>AI 問答遊戲</title>
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="bg.css" />
 </head>
 <body>
   <div class="container">
@@ -15,6 +16,11 @@
       </div>
       <button id="btn-start">開始遊戲</button>
     </header>
+    <div id="bg-animations" class="bg-animations" aria-hidden="true">
+      <div class="blob b1"></div>
+      <div class="blob b2"></div>
+      <div class="blob b3"></div>
+    </div>
 
     <main>
       <section id="home" class="screen">
@@ -29,11 +35,21 @@
 
       <section id="game" class="screen hidden">
         <div class="score">分數: <span id="score">0</span></div>
+        <div class="progress-wrap"><div id="progress" class="progress"><div id="progress-fill" class="progress-fill" style="width:0%"></div></div></div>
         <div class="question-area fade-in" id="question-area">
+          <!-- geometric animated background (kept in separate file `bg.css`) -->
+          <div id="geom-bg" class="geom-bg" aria-hidden="true">
+            <div class="g g1"></div>
+            <div class="g g2"></div>
+            <div class="g g3"></div>
+            <div class="g g4"></div>
+            <div class="g g5"></div>
+          </div>
+
           <div id="question">問題載入中...</div>
           <div class="choices">
-            <button class="choice" data-choice="true">○ 圈圈</button>
-            <button class="choice" data-choice="false">× 差差</button>
+            <button class="choice" data-choice="true">◯ 圈圈</button>
+            <button class="choice" data-choice="false">X 差差</button>
           </div>
         </div>
         <div id="result" class="result fade-in"></div>

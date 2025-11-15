@@ -1,0 +1,21 @@
+/* Geometric animated background for question area */
+.geom-bg .g1{ width:120px; height:120px; background:conic-gradient(from 90deg,#ffd8a8,#ffb3a1); left:6%; top:8%; transform: rotate(12deg); animation:move1 8s ease-in-out infinite; }
+.geom-bg .g2{ width:90px; height:90px; background:linear-gradient(135deg,#cce7ff,#9cd3ff); right:10%; top:10%; border-radius:18px; transform: rotate(-12deg); animation:move2 7s ease-in-out infinite; }
+.geom-bg .g3{ width:170px; height:60px; background:linear-gradient(90deg,#e8ffd8,#bff0b2); left:20%; bottom:8%; border-radius:8px; transform:skewX(-12deg); animation:move3 9s ease-in-out infinite; }
+.geom-bg .g4{ width:60px; height:180px; background:linear-gradient(180deg,#f7d9ff,#e8b6ff); right:22%; bottom:18%; border-radius:12px; transform:rotate(6deg); animation:move4 10s ease-in-out infinite; }
+.geom-bg .g5{ width:36px; height:36px; background:linear-gradient(45deg,#fff6b8,#ffe28a); left:52%; top:30%; border-radius:6px; transform:rotate(25deg); animation:move5 6s ease-in-out infinite; }
+
+@keyframes move1{ 0%{ transform: translateY(0) rotate(12deg) scale(1);}50%{ transform: translateY(14px) rotate(22deg) scale(1.05);}100%{ transform: translateY(0) rotate(12deg) scale(1);} }
+@keyframes move2{ 0%{ transform: translateY(0) rotate(-12deg) scale(1);}50%{ transform: translateY(-10px) rotate(-6deg) scale(1.06);}100%{ transform: translateY(0) rotate(-12deg) scale(1);} }
+@keyframes move3{ 0%{ transform: translateY(0) skewX(-12deg) scale(1);}50%{ transform: translateY(8px) skewX(-6deg) scale(1.03);}100%{ transform: translateY(0) skewX(-12deg) scale(1);} }
+@keyframes move4{ 0%{ transform: translateY(0) rotate(6deg) scale(1);}50%{ transform: translateY(-12px) rotate(2deg) scale(1.04);}100%{ transform: translateY(0) rotate(6deg) scale(1);} }
+@keyframes move5{ 0%{ transform: translateY(0) rotate(25deg) scale(1);}50%{ transform: translateY(6px) rotate(10deg) scale(1.08);}100%{ transform: translateY(0) rotate(25deg) scale(1);} }
+
+/* Responsive adjustments to keep shapes proportionate */
+@media (max-width:640px){
+  .geom-bg .g1{ width:80px; height:80px; left:4%; top:6%; }
+  .geom-bg .g2{ width:64px; height:64px; right:8%; top:6%; }
+  .geom-bg .g3{ width:120px; height:44px; left:18%; bottom:6%; }
+  .geom-bg .g4{ width:44px; height:140px; right:20%; bottom:12%; }
+  .geom-bg .g5{ width:28px; height:28px; left:48%; top:28%; }
+}
